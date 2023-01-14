@@ -22,3 +22,11 @@ def printCoordinates():
     n = input("Naciśnij klawisz, żeby powrócić ")
     system("cls")
 
+def readCoordinates():
+    coords = []
+    with open("\INF-D-2023-Mateusz-Motyl-269381\\utils\cords.txt", "r") as f:
+        for line in f:
+            coords.append(line.rstrip('\n'))
+    f.close()
+    return coords
+
