@@ -1,5 +1,6 @@
 from proj.aco import ACO
 from proj.geneticAlgorithm import geneticAlgorithm
+from proj.tsp import TSP
 from utils.coordinatesFun import generateCoordinates, printCoordinates
 
 while 1:
@@ -7,19 +8,20 @@ while 1:
     print("Inf. Dz. II st.")
     print("ind: 269381\n\n")
 
-    print("Rozwiązywanie problemu komiwojażera")
-    print("Wybór wariantów:")
-    print("1 - wygeneruj nowe punkty")
-    print("2 - pokaż wygenerowane punkty")
-    print("3 - algortym genetyczny")
+    print("Traveling salesman problem")
+    print("Variants selection:")
+    print("1 - generate new coordinates")
+    print("2 - show generated coordinates")
+    print("3 - genetic algorithm")
     print("4 - ant colony optimization")
-    print("_ - koniec")
+    print("5 - metaheuristic method")
+    print("_ - end")
 
-    x = input("Wybierz wariant: ")
+    x = input("Variants selection: ")
     if x.isnumeric():
         x = int(x)
         if x == 1:
-            n = int(input("Podaj ilość punktów: "))
+            n = int(input("Enter the number of nodes: "))
             generateCoordinates(n)
         elif x == 2:
             printCoordinates()
@@ -27,9 +29,12 @@ while 1:
             geneticAlgorithm()
         elif x == 4:
             ACO()
+        elif x == 5:
+            TSP()
         else:
-            print("KONIEC")
+            print("END")
             break
     else:
-        print("KONIEC")
+        print("END")
         break
+

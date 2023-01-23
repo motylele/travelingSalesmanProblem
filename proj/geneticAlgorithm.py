@@ -3,10 +3,9 @@ from time import time
 from os import system
 import pygad
 import numpy
-
 from utils.coordinatesFun import readCoordinates
 
-
+# function to count distances between nodes
 def countDistances(x, y, order):
     dist = 0.0
 
@@ -17,7 +16,7 @@ def countDistances(x, y, order):
 
     return -dist
 
-
+# function to create plot
 def createPlot(x, y, solution, solution_fitness):
     x1 = []
     y2 = []
@@ -28,10 +27,10 @@ def createPlot(x, y, solution, solution_fitness):
         x1.append(x[int(item)])
         y2.append(y[int(item)])
     plt.plot(x1, y2, '-ok')
-    plt.suptitle("ALGORYTM GENETYCZNY")
-    plt.title("Długość ścieżki = {path}".format(path=round(-solution_fitness, 2)))
-    plt.xlabel("Szerokość geograficzna")
-    plt.ylabel("Długość geograficzna")
+    plt.suptitle("GENETIC ALGORITHM")
+    plt.title("Path length = {path}".format(path=round(-solution_fitness, 2)))
+    plt.xlabel("Latitude")
+    plt.ylabel("Longitude")
     plt.show()
 
 def geneticAlgorithm():
@@ -45,35 +44,55 @@ def geneticAlgorithm():
         y.append(float(item.split(",")[1][:-1]))
 
     # list(0, 1, ..., len(x)), list of all possible values of the gene
+
+    # 1) solution no 1
     gene_space = list(range(0, len(x)))
+
+    # 2) solution no 2
+    # gene_space = {'low': 0, 'high': 1}
 
     # number of chromosome genes, number of parameters in the function
     num_genes = len(x)
 
+    # function to sort float values, returns permutation
+    def floatOrder(floats):
+        nodes = list(range(0, len(x)))
+        order = list(zip(nodes, floats))  # ((0, float), (1, float), ... (n, float))
+        sort = sorted(order, key=lambda a: float(a[1]))  # sorted by float values
+
+        return list(zip(*sort))[0] # unzip: (list(order), list(float))[0]
+
     # fitness func -> max, return fitness value of the solution
     def fitness_func(solution, solution_idx):
-        # print(solution)
+
+        # 1) solution no 1
         return countDistances(x, y, solution)
+
+        # 2) solution no 2
+        # return countDistances(x, y, floatOrder(solution))
+
     fitness_function = fitness_func
 
     # number of chromosomes/ solutions, number of solutions in the population
-    if len(x) > 10: #10 is minimum
+    if num_genes > 10: #10 is minimum
         sol_per_pop = 50
-    elif len(x) > 20:
+    elif num_genes > 20:
         sol_per_pop = 80
-    elif len(x) > 30:
+    elif num_genes > 30:
         sol_per_pop = 100
-    elif len(x) > 40:
+    elif num_genes > 40:
         sol_per_pop = 150
     else:
         sol_per_pop = 200
 
-    # number of parents to cross, number of solutions to be selected as parents in the mating pool
-    num_parents_mating = int(len(x) / 2)
-    # num_parents_mating = int(sol_per_pop/2) + 1 #??
-
     #number of generations
-    num_generations = 50
+    num_generations = 200
+
+
+    # number of parents to cross, number of solutions to be selected as parents in the mating pool
+    # num_parents_mating = int(len(x) / 2)
+    num_parents_mating = int(sol_per_pop/2) + 1
+
 
     # if 0 => no parent in the current population will be used in the next population
     # if -1 => all parents in the current population will be used in the next population
@@ -82,7 +101,7 @@ def geneticAlgorithm():
     keep_parents = int(sol_per_pop * 0.01)
 
     # selection type => steady state selection
-    parent_selection_type = "sss"
+    parent_selection_type = "tournament"
 
     # crossover type => single point
     # if None => step bypassed
@@ -117,9 +136,9 @@ def geneticAlgorithm():
 
     # best solution & valued & time
     solution, solution_fitness, solution_idx = ga_instance.best_solution()
-    print("Czas trwania algorytmu = {time}".format(time=(timeEnd - timeStart)))
-    print("Ścieżka najlepszego rozwiązania : {solution}".format(solution=solution))
-    print("Długość = {solution_fitness}".format(solution_fitness=-solution_fitness))
+    print("Algorithm duration = {time}".format(time=(timeEnd - timeStart)))
+    print("Path of the best solution : {solution}".format(solution=solution))
+    print("Path length = {solution_fitness}".format(solution_fitness=-solution_fitness))
 
     # plot generated path
     createPlot(x, y, solution, solution_fitness)
@@ -127,5 +146,5 @@ def geneticAlgorithm():
     # plot ga
     ga_instance.plot_fitness()
 
-    n = input("Naciśnij klawisz, żeby powrócić ")
+    n = input("Press any button ")
     system("cls")

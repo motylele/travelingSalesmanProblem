@@ -1,11 +1,14 @@
+from time import time
 from utils.coordinatesFun import readCoordinates
 from matplotlib import pyplot as plt
 from os import system
 import pants
 
+# function to count distances between nodes
 def countDistances(x, y):
     return ((x[1] - y[1])**2 + (x[0] - y[0])**2)**0.5
 
+# function to create plot
 def createPlot(path):
     x = []
     y = []
@@ -17,10 +20,10 @@ def createPlot(path):
         x.append(item[:1])
 
     plt.plot(x, y, '-ok')
-    plt.suptitle("ALGORYTM ACO")
-    plt.title("Długość ścieżki = {path}".format(path=round(path.distance, 2)))
-    plt.xlabel("Szerokość geograficzna")
-    plt.ylabel("Długość geograficzna")
+    plt.suptitle("ACO ALGORITHM")
+    plt.title("Path length = {path}".format(path=round(path.distance, 2)))
+    plt.xlabel("Latitude")
+    plt.ylabel("Longitude")
     plt.show()
 
 def ACO():
@@ -53,7 +56,7 @@ def ACO():
     t0 = .01
 
     # [int] number of iterations to perform (default=100)
-    limit = 100
+    limit = 200
 
     # [float] how many ants will be used (default=10)
     ant_count = 10
@@ -83,11 +86,17 @@ def ACO():
     # param: the [World] to solve
     # return: best solution found
     # rtype: [Ant]
+
+    timeStart = time()
     solution = solver.solve(world)
+    timeEnd = time()
 
+    # print results
+    print("Algorithm duration = {time}".format(time=(timeEnd - timeStart)))
+    print("Path length = {solution_fitness}".format(solution_fitness=solution.distance))
 
-    print(solution.distance)
+    # plot
     createPlot(solution)
 
-    n = input("Naciśnij klawisz, żeby powrócić ")
+    n = input("Press any button ")
     system("cls")
