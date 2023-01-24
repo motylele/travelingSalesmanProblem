@@ -1,4 +1,8 @@
-# INF-D-2023-Mateusz-Motyl-269381
+# Traveling Salesman Problem
 
-## Rozwiązywanie problemu komiwojażera lub marszrutyzacji
-Temat 8, typ A
+Project description in the projectReport.pdf file
+
+Used python packages:
+* pyGAD
+* pANTS
+* python-tsp
