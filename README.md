@@ -12,4 +12,4 @@ Used python packages:
 * pANTS
 * python-tsp
 
-[Project description in PL lang. version](projectReport.pdf)
+Full project description in the file projectReport.pdf (only Polish language version).
