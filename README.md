@@ -1,5 +1,7 @@
 # Traveling Salesman Problem
 
+**Full project description in the file projectReport.pdf (only Polish language version)**
+
 TSP as points in a two-dimensional plane
 
 Implemented algorithms:
@@ -12,4 +14,3 @@ Used python packages:
 * pANTS
 * python-tsp
 
-Full project description in the file projectReport.pdf (only Polish language version).
